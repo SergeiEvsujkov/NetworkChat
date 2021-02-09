@@ -10,6 +10,13 @@ public class Command implements Serializable {
     private CommandType type;
     private Object data;
 
+    public static Command changeNameCommand(String lastUsername, String username) {
+        Command command = new Command();
+        command.type = CommandType.CHANGE_NAME;
+        command.data = new ChangeNameCommandData(lastUsername, username);
+        return command;
+    }
+
     public CommandType getType() {
         return type;
     }
@@ -90,6 +97,20 @@ public class Command implements Serializable {
     public static Command regOkCommand() {
         Command command = new Command();
         command.type = CommandType.REG_OK;;
+        return command;
+    }
+
+    public static Command changeNameErrorCommand(String regErrorMessage) {
+        Command command = new Command();
+        command.type = CommandType.CHANGENAME_ERROR;
+        command.data = new ChangeNameErrorCommandData(regErrorMessage);
+        return command;
+    }
+
+    public static Command changeNameOkCommand(String username) {
+        Command command = new Command();
+        command.type = CommandType.CHANGENAME_OK;
+        command.data = new ChangeNameOkCommandData(username);
         return command;
     }
 

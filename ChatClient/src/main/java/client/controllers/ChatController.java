@@ -3,9 +3,12 @@ package client.controllers;
 import client.NetworkClient;
 import client.models.Network;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -14,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 public class ChatController {
+
 
     @FXML
     public ListView<String> usersList;
@@ -25,9 +29,13 @@ public class ChatController {
     @FXML
     private TextField textField;
     @FXML
+    private TextField changeNameField;
+    @FXML
     private Label usernameTitle;
     @FXML
     private ChoiceBox<String> userSend;
+    @FXML
+    private Hyperlink change;
 
     private Network network;
 
@@ -90,18 +98,43 @@ public class ChatController {
         chatHistory.appendText(System.lineSeparator());
     }
 
-    public void setUsernameTitle(String username) {
-
-    }
 
     public void newUserList(){
         user.clear();
         user.add(0,"Всем");
         user.addAll(Network.userList);
+        usernameTitle.setText(network.getUsername());
         user.remove(usernameTitle.getText());
         userSend.setItems(FXCollections.observableArrayList(user));
         userSend.setValue(user.get(0));
         usersList.setItems(FXCollections.observableArrayList(Network.userList));
     }
+
+    public void changeUsernameField() {
+        change.setVisible(false);
+        changeNameField.setVisible(true);
+        changeNameField.setText(usernameTitle.getText());
+    }
+
+    public void changeName() {
+        String lastUsername = network.getUsername();
+        String username = changeNameField.getText();
+
+        if (username.isBlank()) {
+            NetworkClient.showErrorMessage("Ошибка смены имени", "Ошибка ввода", "Поле не должно быть пустое");
+            return;
+        }
+        if (username.equals(lastUsername)) {
+            NetworkClient.showErrorMessage("Ошибка смены имени", "Ошибка ввода", "Вы вводите старое имя");
+            return;
+        }
+
+        network.sendChangeNameCommand(lastUsername, username);
+        change.setVisible(true);
+        changeNameField.setVisible(false);
+
+
+    }
+
 
 }

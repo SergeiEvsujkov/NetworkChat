@@ -28,6 +28,10 @@ public class Network {
 
     private Socket socket;
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     private String username;
 
     public static List<String> userList = new ArrayList<>();
@@ -103,7 +107,12 @@ public class Network {
                         });
                         break;
                     }
+                    case CHANGENAME_OK: {
+                        ChangeNameOkCommandData data = (ChangeNameOkCommandData) command.getData();
+                        this.username = data.getUsername();
 
+                        break;
+                    }
 
                     case UPDATE_USERS_LIST: {
                         List<String> data = (List<String>) command.getData();
@@ -112,10 +121,19 @@ public class Network {
                         Platform.runLater(chatController::newUserList);
                         break;
                     }
-                    default:
+                    case CHANGENAME_ERROR: {
+                        ChangeNameErrorCommandData data = (ChangeNameErrorCommandData) command.getData();
                         Platform.runLater(() -> {
-                            NetworkClient.showErrorMessage("Error","Unknown command from server!", command.getType().toString());
+                            NetworkClient.showErrorMessage("Ошибка смены имени!", data.getErrorMessage(), "Повторите ввод.");
+
                         });
+                        break;
+                    }
+                    default: {
+                        Platform.runLater(() -> {
+                            NetworkClient.showErrorMessage("Error", "Unknown command from server!", command.getType().toString());
+                        });
+                    }
                 }
 
             }
@@ -169,6 +187,7 @@ public class Network {
     public String getUsername() {
         return username;
     }
+
 
     public void sendMessage(String message) throws IOException {
         sendMessage(Command.publicMessageCommand(username, message));
@@ -241,6 +260,15 @@ public class Network {
         } catch (IOException e) {
             e.printStackTrace();
             return e.getMessage();
+        }
+    }
+
+    public void sendChangeNameCommand(String lastUsername, String username) {
+        try {
+            Command changeNameCommand = Command.changeNameCommand(lastUsername, username);
+            dataOutputStream.writeObject(changeNameCommand);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

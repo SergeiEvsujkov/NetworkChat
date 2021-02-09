@@ -109,8 +109,8 @@ public class NetworkClient extends Application {
         authStage.close();
         primaryStage.show();
 
-        primaryStage.setTitle(network.getUsername());
-        primaryStage.setAlwaysOnTop(true);
+        primaryStage.setTitle("Ужасный чат");
+        primaryStage.setAlwaysOnTop(false);
         chatController.setLabel(network.getUsername());
         network.waitMessage(chatController);
     }

@@ -72,7 +72,7 @@ public class MyServer {
         broadcastMessage(null, Command.updateUsersListCommand(usernames));
     }
 
-    private List<String> getAllUsernames() {
+    public List<String> getAllUsernames() {
         List<String> usernames = new ArrayList<>();
         for (ClientHandler client : clients) {
             usernames.add(client.getUsername());
@@ -108,5 +108,7 @@ public class MyServer {
     public List<ClientHandler> getClients() {
         return clients;
     }
+
+
 
 }

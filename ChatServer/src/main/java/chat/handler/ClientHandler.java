@@ -3,7 +3,6 @@ package chat.handler;
 import chat.MyServer;
 import chat.auth.AuthService;
 import chat.auth.BaseRegService;
-import chat.auth.RegService;
 import clientserver.Command;
 import clientserver.CommandType;
 import clientserver.commands.*;
@@ -14,7 +13,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.sql.SQLException;
+import java.sql.*;
 
 
 public class ClientHandler {
@@ -24,6 +23,20 @@ public class ClientHandler {
     private ObjectInputStream in;
     private ObjectOutputStream out;
     private String username;
+
+    private static Connection connection;
+    private static Statement stmt;
+    private static ResultSet rs;
+
+    private  static void connection() throws ClassNotFoundException, SQLException {
+        Class.forName("org.sqlite.JDBC");
+        connection = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\evsuj\\IdeaProjects\\NetworkChat\\ChatServer\\src\\main\\resources\\db\\main.db");
+        stmt = connection.createStatement();
+    }
+
+    private  static void disconnection() throws SQLException {
+        connection.close();
+    }
 
     public ClientHandler(MyServer myServer, Socket clientSocket) {
         this.myServer = myServer;
@@ -65,7 +78,6 @@ public class ClientHandler {
 
                 processRegCommand(command);
 
-                //break;
 
             } else {
                 sendMessage(Command.authErrorCommand("Ошибка действия"));
@@ -146,6 +158,7 @@ public class ClientHandler {
     }
 
     private void readMessage() throws IOException {
+
         while (true) {
             Command command = readCommand();
             if (command == null) {
@@ -165,16 +178,58 @@ public class ClientHandler {
                     myServer.broadcastMessage(this, Command.messageInfoCommand(message, sender));
                     break;
                 }
-                case PRIVATE_MESSAGE:
+                case PRIVATE_MESSAGE: {
                     PrivateMessageCommandData data = (PrivateMessageCommandData) command.getData();
                     String recipient = data.getReceiver();
                     String message = data.getMessage();
                     myServer.sendPrivateMessage(recipient, Command.messageInfoCommand(message, username));
                     break;
-                default:
-                    String errorMessage = "Неизвестный тип команды" + command.getType();
-                    System.out.println(errorMessage);
-                    sendMessage(Command.errorCommand(errorMessage));
+                }
+                case CHANGE_NAME: {
+                    ChangeNameCommandData data = (ChangeNameCommandData) command.getData();
+                    String lastUsername = data.getLastUsername();
+                    String username = data.getUsername();
+
+                    try {
+                        connection();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                    try {
+                        int result = stmt.executeUpdate(String.format("UPDATE users SET username = '%s' WHERE username = '%s';", username, lastUsername));
+                        try {
+                            disconnection();
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        }
+                        if (result == 1) {
+
+
+                            myServer.sendPrivateMessage(lastUsername, Command.changeNameOkCommand(username));
+                            this.username = username;
+                            UpdateUsersListCommandData.users.clear();
+                            for (ClientHandler client : myServer.getClients()) {
+                                UpdateUsersListCommandData.users.add(client.getUsername());
+                            }
+
+                            myServer.broadcastMessage(null, Command.updateUsersListCommand(myServer.getAllUsernames()));
+                            String messageChangeName = String.format(">>> %s сменил имя на %s", lastUsername, username);
+                            myServer.broadcastMessage(this, Command.messageInfoCommand(messageChangeName, null));
+
+
+
+
+                        } else {
+                            sendMessage(Command.changeNameErrorCommand("Логин уже используется"));
+                        }
+
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+
+                }
             }
         }
     }

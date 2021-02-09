@@ -13,4 +13,7 @@ public enum CommandType {
     REG,
     REG_OK,
     REG_ERROR,
+    CHANGE_NAME,
+    CHANGENAME_ERROR,
+    CHANGENAME_OK,
 }
