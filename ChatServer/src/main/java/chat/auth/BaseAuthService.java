@@ -34,6 +34,7 @@ public class BaseAuthService implements AuthService {
             disconnection();
             return username;
             }
+        disconnection();
         return null;
     }
 
