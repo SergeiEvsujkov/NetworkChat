@@ -30,7 +30,7 @@ public class ClientHandler {
 
     private  static void connection() throws ClassNotFoundException, SQLException {
         Class.forName("org.sqlite.JDBC");
-        connection = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\evsuj\\IdeaProjects\\NetworkChat\\ChatServer\\src\\main\\resources\\db\\main.db");
+        connection = DriverManager.getConnection("jdbc:sqlite:ChatServer\\src\\main\\resources\\db\\main.db");
         stmt = connection.createStatement();
     }
 
