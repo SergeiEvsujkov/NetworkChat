@@ -39,6 +39,8 @@ public class ChatController {
 
     private Network network;
 
+    private int printLimit = 100;
+
     private List<String> user = new ArrayList<>();
 
     public ChatController() throws IOException {
@@ -117,11 +119,33 @@ public class ChatController {
     public void chatHistoryAdd() {
 
         File file = new File(String.format("ChatClient/src/main/resources/client/%s.HistoryMessage.txt", network.getUsername()));
+
+
         if (file.exists()) {
+
+            Scanner scanner = null;
+            try {
+                scanner = new Scanner(file);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            int lines = 0;
+            while (scanner.hasNextLine()) {
+                lines++;
+                scanner.nextLine();
+            }
+            scanner.close();
+            System.out.println(lines);
             try (BufferedReader reader = new BufferedReader(new FileReader(String.format("ChatClient/src/main/resources/client/%s.HistoryMessage.txt", network.getUsername())))) {
                 String str;
+                int counter = 0;
+                int startPrintLine = lines - printLimit * 3;
                 while ((str = reader.readLine()) != null) {
-                    chatHistory.appendText(str + "\n");
+
+                    if (counter >= startPrintLine) {
+                        chatHistory.appendText(str + "\n");
+                    }
+                    counter++;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
