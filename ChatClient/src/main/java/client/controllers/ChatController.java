@@ -14,6 +14,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
 public class ChatController {
 
@@ -114,13 +115,17 @@ public class ChatController {
     }
 
     public void chatHistoryAdd() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(String.format("ChatClient/src/main/resources/client/%s.HistoryMessage.txt", network.getUsername())))) {
-            String str;
-            while ((str = reader.readLine()) != null) {
-                chatHistory.appendText(str + "\n");
+
+        File file = new File(String.format("ChatClient/src/main/resources/client/%s.HistoryMessage.txt", network.getUsername()));
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(String.format("ChatClient/src/main/resources/client/%s.HistoryMessage.txt", network.getUsername())))) {
+                String str;
+                while ((str = reader.readLine()) != null) {
+                    chatHistory.appendText(str + "\n");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
