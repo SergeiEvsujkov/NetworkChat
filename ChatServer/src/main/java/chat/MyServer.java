@@ -2,7 +2,6 @@ package chat;
 
 import chat.auth.AuthService;
 import chat.auth.BaseAuthService;
-import chat.auth.RegService;
 import chat.handler.ClientHandler;
 import clientserver.Command;
 

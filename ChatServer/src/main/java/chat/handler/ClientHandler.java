@@ -2,6 +2,7 @@ package chat.handler;
 
 import chat.MyServer;
 import chat.auth.AuthService;
+import chat.auth.BaseAuthService;
 import chat.auth.BaseRegService;
 import clientserver.Command;
 import clientserver.CommandType;
@@ -24,19 +25,6 @@ public class ClientHandler {
     private ObjectOutputStream out;
     private String username;
 
-    private static Connection connection;
-    private static Statement stmt;
-    private static ResultSet rs;
-
-    private  static void connection() throws ClassNotFoundException, SQLException {
-        Class.forName("org.sqlite.JDBC");
-        connection = DriverManager.getConnection("jdbc:sqlite:ChatServer\\src\\main\\resources\\db\\main.db");
-        stmt = connection.createStatement();
-    }
-
-    private  static void disconnection() throws SQLException {
-        connection.close();
-    }
 
     public ClientHandler(MyServer myServer, Socket clientSocket) {
         this.myServer = myServer;
@@ -191,16 +179,16 @@ public class ClientHandler {
                     String username = data.getUsername();
 
                     try {
-                        connection();
+                        BaseAuthService.connection();
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
                     try {
-                        int result = stmt.executeUpdate(String.format("UPDATE users SET username = '%s' WHERE username = '%s';", username, lastUsername));
+                        int result = BaseAuthService.stmt.executeUpdate(String.format("UPDATE users SET username = '%s' WHERE username = '%s';", username, lastUsername));
                         try {
-                            disconnection();
+                            BaseAuthService.disconnection();
                         } catch (SQLException throwables) {
                             throwables.printStackTrace();
                         }
