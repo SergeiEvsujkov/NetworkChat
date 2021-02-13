@@ -113,6 +113,7 @@ public class NetworkClient extends Application {
         primaryStage.setAlwaysOnTop(false);
         chatController.setLabel(network.getUsername());
         network.waitMessage(chatController);
+        chatController.chatHistoryAdd();
     }
 
     public void openRegWindow() throws IOException {
