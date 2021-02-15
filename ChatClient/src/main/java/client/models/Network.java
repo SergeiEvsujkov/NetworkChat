@@ -33,6 +33,16 @@ public class Network {
 
     private String username;
 
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    private String login;
+
     public static List<String> userList = new ArrayList<>();
 
     public ObjectOutputStream getDataOutputStream() {

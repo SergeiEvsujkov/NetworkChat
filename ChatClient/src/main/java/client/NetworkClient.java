@@ -26,6 +26,7 @@ public class NetworkClient extends Application {
     private Network network;
     private ChatController chatController;
 
+
     @Override
     public void start(Stage primaryStage) throws Exception {
 

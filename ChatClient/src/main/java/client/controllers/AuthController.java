@@ -39,7 +39,9 @@ public class AuthController {
         if (authErrorMessage != null) {
             NetworkClient.showErrorMessage("Ошибка авторизации", "Что-то не то", authErrorMessage);
         } else {
+            network.setLogin(login);
             networkClient.openMainChatWindow();
+
         }
 
     }

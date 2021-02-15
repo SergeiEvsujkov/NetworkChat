@@ -97,7 +97,7 @@ public class ChatController {
 
     public void appendMessage(String message) {
         String timestamp = DateFormat.getInstance().format(new Date());
-        try (FileOutputStream writer = new FileOutputStream(String.format("ChatClient/src/main/resources/client/%s.HistoryMessage.txt", network.getUsername()), true)) {
+        try (FileOutputStream writer = new FileOutputStream(String.format("ChatClient/src/main/resources/client/%s.HistoryMessage.txt", network.getLogin()), true)) {
             writer.write(timestamp.getBytes(StandardCharsets.UTF_8));
             writer.write(" \n".getBytes(StandardCharsets.UTF_8));
             writer.write(message.getBytes(StandardCharsets.UTF_8));
@@ -118,8 +118,8 @@ public class ChatController {
 
     public void chatHistoryAdd() {
 
-        File file = new File(String.format("ChatClient/src/main/resources/client/%s.HistoryMessage.txt", network.getUsername()));
-
+        File file = new File(String.format("ChatClient/src/main/resources/client/%s.HistoryMessage.txt", network.getLogin()));
+        System.out.println(network.getLogin());
 
         if (file.exists()) {
 
@@ -135,8 +135,7 @@ public class ChatController {
                 scanner.nextLine();
             }
             scanner.close();
-            System.out.println(lines);
-            try (BufferedReader reader = new BufferedReader(new FileReader(String.format("ChatClient/src/main/resources/client/%s.HistoryMessage.txt", network.getUsername())))) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(String.format("ChatClient/src/main/resources/client/%s.HistoryMessage.txt", network.getLogin())))) {
                 String str;
                 int counter = 0;
                 int startPrintLine = lines - printLimit * 3;
