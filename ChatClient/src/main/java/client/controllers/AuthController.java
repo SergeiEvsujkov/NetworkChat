@@ -5,7 +5,6 @@ import client.models.Network;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-
 import java.io.IOException;
 
 
@@ -40,7 +39,9 @@ public class AuthController {
         if (authErrorMessage != null) {
             NetworkClient.showErrorMessage("Ошибка авторизации", "Что-то не то", authErrorMessage);
         } else {
+            network.setLogin(login);
             networkClient.openMainChatWindow();
+
         }
 
     }

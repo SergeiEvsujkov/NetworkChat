@@ -3,18 +3,18 @@ package client.controllers;
 import client.NetworkClient;
 import client.models.Network;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
-import java.io.IOException;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
 public class ChatController {
 
@@ -39,8 +39,12 @@ public class ChatController {
 
     private Network network;
 
-    private List <String> user = new ArrayList<>();
+    private int printLimit = 100;
 
+    private List<String> user = new ArrayList<>();
+
+    public ChatController() throws IOException {
+    }
 
 
     public void setLabel(String usernameTitle) {
@@ -52,8 +56,8 @@ public class ChatController {
     }
 
     @FXML
-    public void initialize() {
-        user.add(0,"Всем");
+    public void initialize() throws IOException {
+        user.add(0, "Всем");
         user.addAll(Network.userList);
         user.remove(usernameTitle.getText());
         userSend.setItems(FXCollections.observableArrayList(user));
@@ -65,10 +69,12 @@ public class ChatController {
 
     }
 
+
+
     private void sendMessage() {
         String message = textField.getText();
 
-        if(message.isBlank()) {
+        if (message.isBlank()) {
             return;
         }
 
@@ -91,12 +97,62 @@ public class ChatController {
 
     public void appendMessage(String message) {
         String timestamp = DateFormat.getInstance().format(new Date());
-        chatHistory.appendText(timestamp);
-        chatHistory.appendText(System.lineSeparator());
-        chatHistory.appendText(message);
-        chatHistory.appendText(System.lineSeparator());
-        chatHistory.appendText(System.lineSeparator());
+        try (FileOutputStream writer = new FileOutputStream(String.format("ChatClient/src/main/resources/client/%s.HistoryMessage.txt", network.getLogin()), true)) {
+            writer.write(timestamp.getBytes(StandardCharsets.UTF_8));
+            writer.write(" \n".getBytes(StandardCharsets.UTF_8));
+            writer.write(message.getBytes(StandardCharsets.UTF_8));
+            writer.write(" \n".getBytes(StandardCharsets.UTF_8));
+            writer.write(" \n".getBytes(StandardCharsets.UTF_8));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+            chatHistory.appendText(timestamp);
+            chatHistory.appendText(System.lineSeparator());
+            chatHistory.appendText(message);
+            chatHistory.appendText(System.lineSeparator());
+            chatHistory.appendText(System.lineSeparator());
+
     }
+
+    public void chatHistoryAdd() {
+
+        File file = new File(String.format("ChatClient/src/main/resources/client/%s.HistoryMessage.txt", network.getLogin()));
+        System.out.println(network.getLogin());
+
+        if (file.exists()) {
+
+            Scanner scanner = null;
+            try {
+                scanner = new Scanner(file);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            int lines = 0;
+            while (scanner.hasNextLine()) {
+                lines++;
+                scanner.nextLine();
+            }
+            scanner.close();
+            try (BufferedReader reader = new BufferedReader(new FileReader(String.format("ChatClient/src/main/resources/client/%s.HistoryMessage.txt", network.getLogin())))) {
+                String str;
+                int counter = 0;
+                int startPrintLine = lines - printLimit * 3;
+                while ((str = reader.readLine()) != null) {
+
+                    if (counter >= startPrintLine) {
+                        chatHistory.appendText(str + "\n");
+                    }
+                    counter++;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
 
 
     public void newUserList(){

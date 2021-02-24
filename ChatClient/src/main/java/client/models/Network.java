@@ -1,18 +1,17 @@
 package client.models;
 
 import clientserver.Command;
-import clientserver.CommandType;
+
 import clientserver.commands.*;
 import client.NetworkClient;
 import client.controllers.ChatController;
 import javafx.application.Platform;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
+
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
 
 public class Network {
@@ -33,6 +32,16 @@ public class Network {
     }
 
     private String username;
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    private String login;
 
     public static List<String> userList = new ArrayList<>();
 
@@ -271,5 +280,6 @@ public class Network {
             e.printStackTrace();
         }
     }
+
 }
 

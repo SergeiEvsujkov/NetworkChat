@@ -4,17 +4,17 @@ import java.sql.*;
 
 public class BaseAuthService implements AuthService {
 
-    private static Connection connection;
-    private static Statement stmt;
-    private static ResultSet rs;
+    public static Connection connection;
+    public static Statement stmt;
+    public static ResultSet rs;
 
-    private  static void connection() throws ClassNotFoundException, SQLException {
+    public static void connection() throws ClassNotFoundException, SQLException {
         Class.forName("org.sqlite.JDBC");
-        connection = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\evsuj\\IdeaProjects\\NetworkChat\\ChatServer\\src\\main\\resources\\db\\main.db");
+        connection = DriverManager.getConnection("jdbc:sqlite:ChatServer\\src\\main\\resources\\db\\main.db");
         stmt = connection.createStatement();
     }
 
-    private  static void disconnection() throws SQLException {
+    public static void disconnection() throws SQLException {
         connection.close();
     }
 
@@ -30,10 +30,12 @@ public class BaseAuthService implements AuthService {
         rs = stmt.executeQuery(String.format("SELECT password, username FROM users WHERE login = '%s'", login));
         String username = rs.getString("username");
         System.out.println(rs.getString("username"));
+
         if(rs.getString("password").equals(password)) {
             disconnection();
             return username;
             }
+        disconnection();
         return null;
     }
 
