@@ -7,7 +7,8 @@ import chat.auth.BaseRegService;
 import clientserver.Command;
 import clientserver.CommandType;
 import clientserver.commands.*;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 import java.io.IOException;
@@ -25,6 +26,8 @@ public class ClientHandler {
     private ObjectOutputStream out;
     private String username;
 
+    private static final Logger LOGGER = LogManager.getLogger(ClientHandler.class);
+
 
     public ClientHandler(MyServer myServer, Socket clientSocket) {
         this.myServer = myServer;
@@ -39,7 +42,7 @@ public class ClientHandler {
                 authentication();
                 readMessage();
             } catch (IOException e) {
-                System.out.println(e.getMessage());
+                LOGGER.error(e.getMessage(), e);
             }
 
         }).start();
@@ -86,7 +89,7 @@ public class ClientHandler {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
         }
         if (username != null) {
             if (myServer.isUsernameBusy(username)) {
@@ -107,6 +110,7 @@ public class ClientHandler {
             return true;
         } else {
             sendMessage(Command.authErrorCommand("Логин или пароль не соответствуют действительности"));
+            LOGGER.info("Клиент ввёл неправильные данные аудентификации.");
             return false;
         }
     }
@@ -120,13 +124,13 @@ public class ClientHandler {
 
             if (BaseRegService.regInDatabase(login, username, password) != null) {
                 sendMessage(Command.regOkCommand());
+                LOGGER.info("Клиент " + username + " успешно зарегистрировался.");
             } else {
                 sendMessage(Command.regErrorCommand("Логин или имя уже используется!"));
+                LOGGER.info("Клиент при регистрации попытался ввести занятые данные.");
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        } catch (SQLException | ClassNotFoundException throwables) {
+            LOGGER.error(throwables.getMessage(), throwables);
         }
 
 
@@ -139,8 +143,7 @@ public class ClientHandler {
             return (Command) in.readObject();
         } catch (ClassNotFoundException e) {
             String errorMessage = "Получен неизвестный объект";
-            System.err.println(errorMessage);
-            e.printStackTrace();
+            LOGGER.error(errorMessage, e);
             return null;
         }
     }
@@ -158,6 +161,7 @@ public class ClientHandler {
                     String messageExit = String.format(">>> %s покинул чат", username);
                     myServer.broadcastMessage(this, Command.messageInfoCommand(messageExit, null));
                     myServer.unSubscribe(this);
+                    LOGGER.info("Клиент " + username + " покинул чат.");
                     return;
                 case PUBLIC_MESSAGE: {
                     PublicMessageCommandData data = (PublicMessageCommandData) command.getData();
@@ -180,17 +184,15 @@ public class ClientHandler {
 
                     try {
                         BaseAuthService.connection();
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
+                    } catch (ClassNotFoundException | SQLException e) {
+                        LOGGER.error(e.getMessage(), e);
                     }
                     try {
                         int result = BaseAuthService.stmt.executeUpdate(String.format("UPDATE users SET username = '%s' WHERE username = '%s';", username, lastUsername));
                         try {
                             BaseAuthService.disconnection();
                         } catch (SQLException throwables) {
-                            throwables.printStackTrace();
+                            LOGGER.error(throwables.getMessage(), throwables);
                         }
                         if (result == 1) {
 
@@ -205,6 +207,7 @@ public class ClientHandler {
                             myServer.broadcastMessage(null, Command.updateUsersListCommand(myServer.getAllUsernames()));
                             String messageChangeName = String.format(">>> %s сменил имя на %s", lastUsername, username);
                             myServer.broadcastMessage(this, Command.messageInfoCommand(messageChangeName, null));
+                            LOGGER.info("Клиент " + lastUsername + " сменил имя на " + username);
 
 
 
@@ -214,7 +217,7 @@ public class ClientHandler {
                         }
 
                     } catch (SQLException throwables) {
-                        throwables.printStackTrace();
+                        LOGGER.error(throwables.getMessage(), throwables);
                     }
 
                 }
