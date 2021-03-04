@@ -107,6 +107,7 @@ public class ChatController {
         }
 
 
+
         chatHistory.appendText(timestamp);
         chatHistory.appendText(System.lineSeparator());
         chatHistory.appendText(message);

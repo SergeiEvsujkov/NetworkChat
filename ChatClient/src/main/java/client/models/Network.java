@@ -6,6 +6,8 @@ import clientserver.commands.*;
 import client.NetworkClient;
 import client.controllers.ChatController;
 import javafx.application.Platform;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import java.io.*;
 import java.net.Socket;
@@ -107,6 +109,9 @@ public class Network {
                             Platform.runLater(() -> {
                                 chatController.appendMessage(formattedMessage);
                             });
+                            Media sound=new Media(new File("ChatClient/src/main/resources/client/message.wav").toURI().toString());
+                            MediaPlayer mediaPlayer = new MediaPlayer(sound);
+                            mediaPlayer.play();
                             break;
                         }
                         case ERROR: {
