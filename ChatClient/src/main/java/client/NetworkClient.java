@@ -71,7 +71,6 @@ public class NetworkClient extends Application {
         authController.setNetworkClient(this);
 
 
-
     }
 
     public void createMainChatWindow() throws java.io.IOException {

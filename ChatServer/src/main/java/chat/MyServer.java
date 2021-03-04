@@ -4,6 +4,8 @@ import chat.auth.AuthService;
 import chat.auth.BaseAuthService;
 import chat.handler.ClientHandler;
 import clientserver.Command;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -18,6 +20,8 @@ public class MyServer {
     private final AuthService authService;
     private final List<ClientHandler> clients = new ArrayList<>();
 
+    private static final Logger LOGGER = LogManager.getLogger(MyServer.class);
+
     public MyServer(int port) throws IOException {
         this.serverSocket = new ServerSocket(port);
         this.authService = new BaseAuthService();
@@ -25,25 +29,24 @@ public class MyServer {
 
 
     public void start() throws IOException {
-        System.out.println("Сервер запущен!");
+        LOGGER.info("Сервер запущен.");
 
         try {
             while (true) {
                 waitAndProcessNewClientConnection();
             }
         } catch (IOException e) {
-            System.out.println("Ошибка создания нового подключения");
-            e.printStackTrace();
+            LOGGER.error("Ошибка создания нового подключения", e);
         } finally {
             serverSocket.close();
         }
     }
 
     private void waitAndProcessNewClientConnection() throws IOException {
-        System.out.println("Ожидание пользователя...");
+        LOGGER.info("Ожидание пользователя...");
         Socket clientSocket = serverSocket.accept();
 
-        System.out.println("Клиент подключился!");
+        LOGGER.info("Клиент подключился!");
         processClientConnection(clientSocket);
     }
 
@@ -59,7 +62,7 @@ public class MyServer {
     public synchronized boolean isUsernameBusy(String clientUsername) {
         for (ClientHandler client : clients) {
             if (client.getUsername().equals(clientUsername)) {
-               return true;
+                return true;
             }
         }
         return false;
@@ -90,7 +93,7 @@ public class MyServer {
             if (client == sender) {
                 continue;
             }
-          client.sendMessage(command);
+            client.sendMessage(command);
 
         }
     }
@@ -107,7 +110,6 @@ public class MyServer {
     public List<ClientHandler> getClients() {
         return clients;
     }
-
 
 
 }

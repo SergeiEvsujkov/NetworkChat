@@ -1,5 +1,8 @@
 package chat.auth;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.*;
 
 public class BaseAuthService implements AuthService {
@@ -7,6 +10,8 @@ public class BaseAuthService implements AuthService {
     public static Connection connection;
     public static Statement stmt;
     public static ResultSet rs;
+
+    private static final Logger LOGGER = LogManager.getLogger(BaseAuthService.class);
 
     public static void connection() throws ClassNotFoundException, SQLException {
         Class.forName("org.sqlite.JDBC");
@@ -29,12 +34,12 @@ public class BaseAuthService implements AuthService {
         connection();
         rs = stmt.executeQuery(String.format("SELECT password, username FROM users WHERE login = '%s'", login));
         String username = rs.getString("username");
-        System.out.println(rs.getString("username"));
+        LOGGER.info("Клиент " + rs.getString("username") + " подключился к чату.");
 
-        if(rs.getString("password").equals(password)) {
+        if (rs.getString("password").equals(password)) {
             disconnection();
             return username;
-            }
+        }
         disconnection();
         return null;
     }
