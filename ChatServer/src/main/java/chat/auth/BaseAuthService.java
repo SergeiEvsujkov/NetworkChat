@@ -1,6 +1,5 @@
 package chat.auth;
 
-import chat.handler.ClientHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -37,10 +36,10 @@ public class BaseAuthService implements AuthService {
         String username = rs.getString("username");
         LOGGER.info("Клиент " + rs.getString("username") + " подключился к чату.");
 
-        if(rs.getString("password").equals(password)) {
+        if (rs.getString("password").equals(password)) {
             disconnection();
             return username;
-            }
+        }
         disconnection();
         return null;
     }

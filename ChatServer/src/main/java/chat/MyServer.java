@@ -62,7 +62,7 @@ public class MyServer {
     public synchronized boolean isUsernameBusy(String clientUsername) {
         for (ClientHandler client : clients) {
             if (client.getUsername().equals(clientUsername)) {
-               return true;
+                return true;
             }
         }
         return false;
@@ -93,7 +93,7 @@ public class MyServer {
             if (client == sender) {
                 continue;
             }
-          client.sendMessage(command);
+            client.sendMessage(command);
 
         }
     }
@@ -110,7 +110,6 @@ public class MyServer {
     public List<ClientHandler> getClients() {
         return clients;
     }
-
 
 
 }

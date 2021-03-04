@@ -137,7 +137,6 @@ public class ClientHandler {
     }
 
 
-
     private Command readCommand() throws IOException {
         try {
             return (Command) in.readObject();
@@ -208,8 +207,6 @@ public class ClientHandler {
                             String messageChangeName = String.format(">>> %s сменил имя на %s", lastUsername, username);
                             myServer.broadcastMessage(this, Command.messageInfoCommand(messageChangeName, null));
                             LOGGER.info("Клиент " + lastUsername + " сменил имя на " + username);
-
-
 
 
                         } else {

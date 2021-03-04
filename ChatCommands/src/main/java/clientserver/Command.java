@@ -46,6 +46,7 @@ public class Command implements Serializable {
         command.data = new AuthErrorCommandData(authErrorMessage);
         return command;
     }
+
     public static Command errorCommand(String errorMessage) {
         Command command = new Command();
         command.type = CommandType.ERROR;
@@ -96,7 +97,7 @@ public class Command implements Serializable {
 
     public static Command regOkCommand() {
         Command command = new Command();
-        command.type = CommandType.REG_OK;;
+        command.type = CommandType.REG_OK;
         return command;
     }
 

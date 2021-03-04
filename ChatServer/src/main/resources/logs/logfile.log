@@ -1,2 +1,124 @@
 INFO  2021-02-24 15:26:53 [main] chat.MyServer (MyServer.java:32) - Сервер запущен.
 INFO  2021-02-24 15:26:53 [main] chat.MyServer (MyServer.java:46) - Ожидание пользователя...
+INFO  2021-03-04 09:38:34 [main] chat.MyServer (MyServer.java:32) - Сервер запущен.
+INFO  2021-03-04 09:38:34 [main] chat.MyServer (MyServer.java:46) - Ожидание пользователя...
+INFO  2021-03-04 09:42:19 [main] chat.MyServer (MyServer.java:32) - Сервер запущен.
+INFO  2021-03-04 09:42:19 [main] chat.MyServer (MyServer.java:46) - Ожидание пользователя...
+INFO  2021-03-04 09:50:11 [main] chat.MyServer (MyServer.java:32) - Сервер запущен.
+INFO  2021-03-04 09:50:11 [main] chat.MyServer (MyServer.java:46) - Ожидание пользователя...
+INFO  2021-03-04 09:50:18 [main] chat.MyServer (MyServer.java:49) - Клиент подключился!
+INFO  2021-03-04 09:50:18 [main] chat.MyServer (MyServer.java:46) - Ожидание пользователя...
+INFO  2021-03-04 10:01:40 [main] chat.MyServer (MyServer.java:32) - Сервер запущен.
+INFO  2021-03-04 10:01:40 [main] chat.MyServer (MyServer.java:46) - Ожидание пользователя...
+INFO  2021-03-04 10:01:47 [main] chat.MyServer (MyServer.java:49) - Клиент подключился!
+INFO  2021-03-04 10:01:47 [main] chat.MyServer (MyServer.java:46) - Ожидание пользователя...
+ERROR 2021-03-04 10:03:47 [Thread-0] chat.handler.ClientHandler (ClientHandler.java:45) - null
+java.io.EOFException: null
+	at java.io.ObjectInputStream$BlockDataInputStream.peekByte(ObjectInputStream.java:3231) ~[?:?]
+	at java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1663) ~[?:?]
+	at java.io.ObjectInputStream.readObject(ObjectInputStream.java:519) ~[?:?]
+	at java.io.ObjectInputStream.readObject(ObjectInputStream.java:477) ~[?:?]
+	at chat.handler.ClientHandler.readCommand(ClientHandler.java:143) ~[classes/:?]
+	at chat.handler.ClientHandler.authentication(ClientHandler.java:56) ~[classes/:?]
+	at chat.handler.ClientHandler.lambda$handle$0(ClientHandler.java:42) ~[classes/:?]
+	at java.lang.Thread.run(Thread.java:832) [?:?]
+INFO  2021-03-04 10:09:35 [main] chat.MyServer (MyServer.java:49) - Клиент подключился!
+INFO  2021-03-04 10:09:35 [main] chat.MyServer (MyServer.java:46) - Ожидание пользователя...
+ERROR 2021-03-04 10:11:09 [Thread-1] chat.handler.ClientHandler (ClientHandler.java:45) - Connection reset
+java.net.SocketException: Connection reset
+	at sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:323) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:350) ~[?:?]
+	at sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:803) ~[?:?]
+	at java.net.Socket$SocketInputStream.read(Socket.java:981) ~[?:?]
+	at java.net.Socket$SocketInputStream.read(Socket.java:976) ~[?:?]
+	at java.io.ObjectInputStream$PeekInputStream.peek(ObjectInputStream.java:2892) ~[?:?]
+	at java.io.ObjectInputStream$BlockDataInputStream.peek(ObjectInputStream.java:3219) ~[?:?]
+	at java.io.ObjectInputStream$BlockDataInputStream.peekByte(ObjectInputStream.java:3229) ~[?:?]
+	at java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1663) ~[?:?]
+	at java.io.ObjectInputStream.readObject(ObjectInputStream.java:519) ~[?:?]
+	at java.io.ObjectInputStream.readObject(ObjectInputStream.java:477) ~[?:?]
+	at chat.handler.ClientHandler.readCommand(ClientHandler.java:143) ~[classes/:?]
+	at chat.handler.ClientHandler.authentication(ClientHandler.java:56) ~[classes/:?]
+	at chat.handler.ClientHandler.lambda$handle$0(ClientHandler.java:42) ~[classes/:?]
+	at java.lang.Thread.run(Thread.java:832) [?:?]
+INFO  2021-03-04 10:11:17 [main] chat.MyServer (MyServer.java:32) - Сервер запущен.
+INFO  2021-03-04 10:11:17 [main] chat.MyServer (MyServer.java:46) - Ожидание пользователя...
+INFO  2021-03-04 10:11:22 [main] chat.MyServer (MyServer.java:49) - Клиент подключился!
+INFO  2021-03-04 10:11:22 [main] chat.MyServer (MyServer.java:46) - Ожидание пользователя...
+ERROR 2021-03-04 10:11:27 [Thread-0] chat.handler.ClientHandler (ClientHandler.java:45) - Connection reset
+java.net.SocketException: Connection reset
+	at sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:323) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:350) ~[?:?]
+	at sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:803) ~[?:?]
+	at java.net.Socket$SocketInputStream.read(Socket.java:981) ~[?:?]
+	at java.net.Socket$SocketInputStream.read(Socket.java:976) ~[?:?]
+	at java.io.ObjectInputStream$PeekInputStream.peek(ObjectInputStream.java:2892) ~[?:?]
+	at java.io.ObjectInputStream$BlockDataInputStream.peek(ObjectInputStream.java:3219) ~[?:?]
+	at java.io.ObjectInputStream$BlockDataInputStream.peekByte(ObjectInputStream.java:3229) ~[?:?]
+	at java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1663) ~[?:?]
+	at java.io.ObjectInputStream.readObject(ObjectInputStream.java:519) ~[?:?]
+	at java.io.ObjectInputStream.readObject(ObjectInputStream.java:477) ~[?:?]
+	at chat.handler.ClientHandler.readCommand(ClientHandler.java:143) ~[classes/:?]
+	at chat.handler.ClientHandler.authentication(ClientHandler.java:56) ~[classes/:?]
+	at chat.handler.ClientHandler.lambda$handle$0(ClientHandler.java:42) ~[classes/:?]
+	at java.lang.Thread.run(Thread.java:832) [?:?]
+INFO  2021-03-04 10:12:56 [main] chat.MyServer (MyServer.java:49) - Клиент подключился!
+INFO  2021-03-04 10:12:56 [main] chat.MyServer (MyServer.java:46) - Ожидание пользователя...
+INFO  2021-03-04 10:13:04 [Thread-1] chat.auth.BaseAuthService (BaseAuthService.java:38) - Клиент Петруха подключился к чату.
+INFO  2021-03-04 10:13:11 [main] chat.MyServer (MyServer.java:49) - Клиент подключился!
+INFO  2021-03-04 10:13:11 [main] chat.MyServer (MyServer.java:46) - Ожидание пользователя...
+INFO  2021-03-04 10:13:21 [Thread-2] chat.auth.BaseAuthService (BaseAuthService.java:38) - Клиент Серёга подключился к чату.
+INFO  2021-03-04 10:14:39 [Thread-2] chat.handler.ClientHandler (ClientHandler.java:164) - Клиент Серёга покинул чат.
+INFO  2021-03-04 10:14:45 [Thread-1] chat.handler.ClientHandler (ClientHandler.java:164) - Клиент Петруха покинул чат.
+INFO  2021-03-04 10:14:51 [main] chat.MyServer (MyServer.java:49) - Клиент подключился!
+INFO  2021-03-04 10:14:51 [main] chat.MyServer (MyServer.java:46) - Ожидание пользователя...
+INFO  2021-03-04 10:14:58 [Thread-3] chat.auth.BaseAuthService (BaseAuthService.java:38) - Клиент Серёга подключился к чату.
+INFO  2021-03-04 10:15:04 [main] chat.MyServer (MyServer.java:49) - Клиент подключился!
+INFO  2021-03-04 10:15:04 [main] chat.MyServer (MyServer.java:46) - Ожидание пользователя...
+INFO  2021-03-04 10:15:14 [Thread-4] chat.auth.BaseAuthService (BaseAuthService.java:38) - Клиент Даниил подключился к чату.
+INFO  2021-03-04 10:22:13 [Thread-4] chat.handler.ClientHandler (ClientHandler.java:164) - Клиент Даниил покинул чат.
+INFO  2021-03-04 10:22:16 [Thread-3] chat.handler.ClientHandler (ClientHandler.java:164) - Клиент Серёга покинул чат.
+INFO  2021-03-04 10:22:22 [main] chat.MyServer (MyServer.java:49) - Клиент подключился!
+INFO  2021-03-04 10:22:22 [main] chat.MyServer (MyServer.java:46) - Ожидание пользователя...
+INFO  2021-03-04 10:22:29 [Thread-5] chat.auth.BaseAuthService (BaseAuthService.java:38) - Клиент Петруха подключился к чату.
+INFO  2021-03-04 10:22:35 [main] chat.MyServer (MyServer.java:49) - Клиент подключился!
+INFO  2021-03-04 10:22:35 [main] chat.MyServer (MyServer.java:46) - Ожидание пользователя...
+INFO  2021-03-04 10:22:43 [Thread-6] chat.auth.BaseAuthService (BaseAuthService.java:38) - Клиент Серёга подключился к чату.
+INFO  2021-03-04 10:24:44 [Thread-6] chat.handler.ClientHandler (ClientHandler.java:164) - Клиент Серёга покинул чат.
+INFO  2021-03-04 10:24:48 [Thread-5] chat.handler.ClientHandler (ClientHandler.java:164) - Клиент Петруха покинул чат.
+INFO  2021-03-04 10:24:53 [main] chat.MyServer (MyServer.java:49) - Клиент подключился!
+INFO  2021-03-04 10:24:53 [main] chat.MyServer (MyServer.java:46) - Ожидание пользователя...
+INFO  2021-03-04 10:24:58 [Thread-7] chat.auth.BaseAuthService (BaseAuthService.java:38) - Клиент Петруха подключился к чату.
+INFO  2021-03-04 10:25:07 [main] chat.MyServer (MyServer.java:49) - Клиент подключился!
+INFO  2021-03-04 10:25:07 [main] chat.MyServer (MyServer.java:46) - Ожидание пользователя...
+INFO  2021-03-04 10:25:12 [Thread-8] chat.auth.BaseAuthService (BaseAuthService.java:38) - Клиент Серёга подключился к чату.
+INFO  2021-03-04 10:28:01 [Thread-8] chat.handler.ClientHandler (ClientHandler.java:164) - Клиент Серёга покинул чат.
+INFO  2021-03-04 10:28:04 [Thread-7] chat.handler.ClientHandler (ClientHandler.java:164) - Клиент Петруха покинул чат.
+INFO  2021-03-04 10:28:08 [main] chat.MyServer (MyServer.java:49) - Клиент подключился!
+INFO  2021-03-04 10:28:08 [main] chat.MyServer (MyServer.java:46) - Ожидание пользователя...
+INFO  2021-03-04 10:28:15 [Thread-9] chat.auth.BaseAuthService (BaseAuthService.java:38) - Клиент Петруха подключился к чату.
+INFO  2021-03-04 10:28:22 [Thread-9] chat.handler.ClientHandler (ClientHandler.java:164) - Клиент Петруха покинул чат.
+INFO  2021-03-04 10:36:41 [main] chat.MyServer (MyServer.java:49) - Клиент подключился!
+INFO  2021-03-04 10:36:41 [main] chat.MyServer (MyServer.java:46) - Ожидание пользователя...
+INFO  2021-03-04 10:36:46 [Thread-10] chat.auth.BaseAuthService (BaseAuthService.java:38) - Клиент Петруха подключился к чату.
+INFO  2021-03-04 10:36:53 [main] chat.MyServer (MyServer.java:49) - Клиент подключился!
+INFO  2021-03-04 10:36:53 [main] chat.MyServer (MyServer.java:46) - Ожидание пользователя...
+INFO  2021-03-04 10:37:02 [Thread-11] chat.auth.BaseAuthService (BaseAuthService.java:38) - Клиент Серёга подключился к чату.
+INFO  2021-03-04 10:37:11 [Thread-11] chat.handler.ClientHandler (ClientHandler.java:164) - Клиент Серёга покинул чат.
+INFO  2021-03-04 10:37:13 [Thread-10] chat.handler.ClientHandler (ClientHandler.java:164) - Клиент Петруха покинул чат.
+INFO  2021-03-04 10:43:03 [main] chat.MyServer (MyServer.java:32) - Сервер запущен.
+INFO  2021-03-04 10:43:03 [main] chat.MyServer (MyServer.java:46) - Ожидание пользователя...
+INFO  2021-03-04 10:43:15 [main] chat.MyServer (MyServer.java:49) - Клиент подключился!
+INFO  2021-03-04 10:43:15 [main] chat.MyServer (MyServer.java:46) - Ожидание пользователя...
+INFO  2021-03-04 10:43:21 [Thread-0] chat.auth.BaseAuthService (BaseAuthService.java:38) - Клиент Петруха подключился к чату.
+INFO  2021-03-04 10:43:26 [main] chat.MyServer (MyServer.java:49) - Клиент подключился!
+INFO  2021-03-04 10:43:26 [main] chat.MyServer (MyServer.java:46) - Ожидание пользователя...
+INFO  2021-03-04 10:43:32 [Thread-1] chat.auth.BaseAuthService (BaseAuthService.java:38) - Клиент Серёга подключился к чату.
+INFO  2021-03-04 10:43:41 [main] chat.MyServer (MyServer.java:49) - Клиент подключился!
+INFO  2021-03-04 10:43:41 [main] chat.MyServer (MyServer.java:46) - Ожидание пользователя...
+INFO  2021-03-04 10:44:01 [Thread-2] chat.handler.ClientHandler (ClientHandler.java:130) - Клиент при регистрации попытался ввести занятые данные.
+INFO  2021-03-04 10:44:14 [Thread-2] chat.handler.ClientHandler (ClientHandler.java:127) - Клиент Гвидон успешно зарегистрировался.
+INFO  2021-03-04 10:44:25 [Thread-2] chat.auth.BaseAuthService (BaseAuthService.java:38) - Клиент Гвидон подключился к чату.
+INFO  2021-03-04 10:44:55 [Thread-1] chat.handler.ClientHandler (ClientHandler.java:209) - Клиент Серёга сменил имя на Юрий
+INFO  2021-03-04 10:45:04 [Thread-1] chat.handler.ClientHandler (ClientHandler.java:163) - Клиент Юрий покинул чат.
+INFO  2021-03-04 10:45:07 [Thread-2] chat.handler.ClientHandler (ClientHandler.java:163) - Клиент Гвидон покинул чат.

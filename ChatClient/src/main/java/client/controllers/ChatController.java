@@ -3,10 +3,8 @@ package client.controllers;
 import client.NetworkClient;
 import client.models.Network;
 import javafx.collections.FXCollections;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -15,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+
 
 public class ChatController {
 
@@ -43,7 +42,7 @@ public class ChatController {
 
     private List<String> user = new ArrayList<>();
 
-    public ChatController() throws IOException {
+    public ChatController() {
     }
 
 
@@ -56,7 +55,7 @@ public class ChatController {
     }
 
     @FXML
-    public void initialize() throws IOException {
+    public void initialize() {
         user.add(0, "Всем");
         user.addAll(Network.userList);
         user.remove(usernameTitle.getText());
@@ -68,7 +67,6 @@ public class ChatController {
 
 
     }
-
 
 
     private void sendMessage() {
@@ -96,6 +94,7 @@ public class ChatController {
     }
 
     public void appendMessage(String message) {
+
         String timestamp = DateFormat.getInstance().format(new Date());
         try (FileOutputStream writer = new FileOutputStream(String.format("ChatClient/src/main/resources/client/%s.HistoryMessage.txt", network.getLogin()), true)) {
             writer.write(timestamp.getBytes(StandardCharsets.UTF_8));
@@ -108,11 +107,11 @@ public class ChatController {
         }
 
 
-            chatHistory.appendText(timestamp);
-            chatHistory.appendText(System.lineSeparator());
-            chatHistory.appendText(message);
-            chatHistory.appendText(System.lineSeparator());
-            chatHistory.appendText(System.lineSeparator());
+        chatHistory.appendText(timestamp);
+        chatHistory.appendText(System.lineSeparator());
+        chatHistory.appendText(message);
+        chatHistory.appendText(System.lineSeparator());
+        chatHistory.appendText(System.lineSeparator());
 
     }
 
@@ -130,7 +129,9 @@ public class ChatController {
                 e.printStackTrace();
             }
             int lines = 0;
-            while (scanner.hasNextLine()) {
+            while (true) {
+                assert scanner != null;
+                if (!scanner.hasNextLine()) break;
                 lines++;
                 scanner.nextLine();
             }
@@ -153,11 +154,9 @@ public class ChatController {
     }
 
 
-
-
-    public void newUserList(){
+    public void newUserList() {
         user.clear();
-        user.add(0,"Всем");
+        user.add(0, "Всем");
         user.addAll(Network.userList);
         usernameTitle.setText(network.getUsername());
         user.remove(usernameTitle.getText());

@@ -88,64 +88,65 @@ public class Network {
 
     public void waitMessage(ChatController chatController) {
 
-        Thread thread = new Thread( () -> {
-            try { while (true) {
+        Thread thread = new Thread(() -> {
+            try {
+                while (true) {
 
-                Command command = readCommand();
-                if(command == null) {
-                    NetworkClient.showErrorMessage("Error","Ошибка серверва", "Получена неверная команда");
-                    continue;
+                    Command command = readCommand();
+                    if (command == null) {
+                        NetworkClient.showErrorMessage("Error", "Ошибка серверва", "Получена неверная команда");
+                        continue;
+                    }
+
+                    switch (command.getType()) {
+                        case INFO_MESSAGE: {
+                            MessageInfoCommandData data = (MessageInfoCommandData) command.getData();
+                            String message = data.getMessage();
+                            String sender = data.getSender();
+                            String formattedMessage = sender != null ? String.format("%s: %s", sender, message) : message;
+                            Platform.runLater(() -> {
+                                chatController.appendMessage(formattedMessage);
+                            });
+                            break;
+                        }
+                        case ERROR: {
+                            ErrorCommandData data = (ErrorCommandData) command.getData();
+                            String errorMessage = data.getErrorMessage();
+                            Platform.runLater(() -> {
+                                NetworkClient.showErrorMessage("Error", "Server error", errorMessage);
+                            });
+                            break;
+                        }
+                        case CHANGENAME_OK: {
+                            ChangeNameOkCommandData data = (ChangeNameOkCommandData) command.getData();
+                            this.username = data.getUsername();
+
+                            break;
+                        }
+
+                        case UPDATE_USERS_LIST: {
+                            List<String> data = (List<String>) command.getData();
+                            userList.clear();
+                            userList.addAll(data);
+                            Platform.runLater(chatController::newUserList);
+                            break;
+                        }
+                        case CHANGENAME_ERROR: {
+                            ChangeNameErrorCommandData data = (ChangeNameErrorCommandData) command.getData();
+                            Platform.runLater(() -> {
+                                NetworkClient.showErrorMessage("Ошибка смены имени!", data.getErrorMessage(), "Повторите ввод.");
+
+                            });
+                            break;
+                        }
+                        default: {
+                            Platform.runLater(() -> {
+                                NetworkClient.showErrorMessage("Error", "Unknown command from server!", command.getType().toString());
+                            });
+                        }
+                    }
+
                 }
-
-                switch (command.getType()) {
-                    case INFO_MESSAGE: {
-                        MessageInfoCommandData data = (MessageInfoCommandData) command.getData();
-                        String message = data.getMessage();
-                        String sender = data.getSender();
-                        String formattedMessage = sender != null ? String.format("%s: %s", sender, message) : message;
-                        Platform.runLater(() -> {
-                            chatController.appendMessage(formattedMessage);
-                        });
-                        break;
-                    }
-                    case ERROR: {
-                        ErrorCommandData data = (ErrorCommandData) command.getData();
-                        String errorMessage = data.getErrorMessage();
-                        Platform.runLater(() -> {
-                            NetworkClient.showErrorMessage("Error", "Server error", errorMessage);
-                        });
-                        break;
-                    }
-                    case CHANGENAME_OK: {
-                        ChangeNameOkCommandData data = (ChangeNameOkCommandData) command.getData();
-                        this.username = data.getUsername();
-
-                        break;
-                    }
-
-                    case UPDATE_USERS_LIST: {
-                        List<String> data = (List<String>) command.getData();
-                        userList.clear();
-                        userList.addAll(data);
-                        Platform.runLater(chatController::newUserList);
-                        break;
-                    }
-                    case CHANGENAME_ERROR: {
-                        ChangeNameErrorCommandData data = (ChangeNameErrorCommandData) command.getData();
-                        Platform.runLater(() -> {
-                            NetworkClient.showErrorMessage("Ошибка смены имени!", data.getErrorMessage(), "Повторите ввод.");
-
-                        });
-                        break;
-                    }
-                    default: {
-                        Platform.runLater(() -> {
-                            NetworkClient.showErrorMessage("Error", "Unknown command from server!", command.getType().toString());
-                        });
-                    }
-                }
-
-            }
             } catch (IOException e) {
                 e.printStackTrace();
                 System.out.println("Соединение потеряно!");
@@ -173,7 +174,7 @@ public class Network {
                     return null;
                 }
 
-                case AUTH_ERROR:{
+                case AUTH_ERROR: {
                     AuthErrorCommandData data = (AuthErrorCommandData) command.getData();
                     return data.getErrorMessage();
                 }
@@ -207,7 +208,6 @@ public class Network {
     }
 
 
-
     public void sendPrivateMessage(String message, String recipient) throws IOException {
         Command command = Command.privateMessageCommand(recipient, message);
         sendMessage(command);
@@ -225,7 +225,7 @@ public class Network {
         }
     }
 
-    public void sendExitMessage(){
+    public void sendExitMessage() {
         Command command = Command.endCommand();
         try {
             sendMessage(command);
@@ -248,7 +248,7 @@ public class Network {
             switch (command.getType()) {
                 case REG_OK: {
                     RegOkCommandData data = (RegOkCommandData) command.getData();
-                    NetworkClient.showErrorMessage("Поздравляю!","Регистрация завершилась!", "Вы успешно зарегистрировались!");
+                    NetworkClient.showErrorMessage("Поздравляю!", "Регистрация завершилась!", "Вы успешно зарегистрировались!");
                     return null;
                 }
                 case REG_ERROR: {

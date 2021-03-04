@@ -1,12 +1,9 @@
 import chat.MyServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.Property;
-
-import java.io.File;
 import java.io.IOException;
 
-class ServerApp{
+class ServerApp {
 
     private static final Logger LOGGER = LogManager.getLogger(ServerApp.class);
 
